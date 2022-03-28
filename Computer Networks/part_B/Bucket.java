@@ -1,33 +1,52 @@
+// |----------------------------------------------------------------------|
+// | Write a program for congestion control using leaky bucket algorithm. |
+// |----------------------------------------------------------------------|
+
 import java.util.*;
 
-public class Bucket{
-public static void solution(int pktsize, int op){
-int bktsize = 512;
-if(pktsize > bktsize){
-System.out.println("Bucket overflow!!");
-} else {
-while(pktsize > op){
-System.out.println(op + " Bytes output");
-pktsize -= op;
-}
-if(pktsize > 0){
-System.out.println(pktsize + " Bucket Output");
-}
-}
+public class Bucket {
+  static void solution(int psize, int output) {
+    int bsize = 512;
+    if (psize > bsize) {
+      System.out.println("Bucket overflow!");
+    } else {
+      while (true) {
+        if (psize > output) {
+          System.out.println(output + " bytes outputted");
+          psize -= output;
+        } else {
+          System.out.println(psize + " bytes outputted");
+          break;
+        }
+      }
+    }
+  }
+
+  public static void main(String[] args) {
+    int output, psize, n;
+
+    Scanner r = new Scanner(System.in);
+    Random rand = new Random();
+
+    System.out.print("Enter the output rate: ");
+    output = r.nextInt();
+    System.out.print("Enter the no. of packets: ");
+    n = r.nextInt();
+
+    for (int i = 0; i < n; i++) {
+      psize = rand.nextInt(1000);
+      System.out.println("packet no. " + i + " packet size " + psize);
+      solution(psize, output);
+    }
+  }
 }
 
-public static void main(String [] args){
-int pktsize, op, n;
-Scanner sc = new Scanner(System.in);
-Random rand = new Random();
-System.out.println("Enter the output rate : ");
-op = sc.nextInt();
-System.out.println("Enter the no. of pkts: ");
-n = sc.nextInt();
-for(int i=0; i<n; i++){
-pktsize = rand.nextInt(1000);
-System.out.println("pkt no. " + (i+1)+ " pkt size " + pktsize);
-solution(pktsize, op);
-} 
-} 
-}
+// |------------------------------|
+// | Sample Output                |
+// |------------------------------|
+// | Enter the output rate: 50    |
+// | Enter the no. of packets: 2  |
+// | packet no. 0 packet size 14  |
+// | packet no. 1 packet size 686 |
+// | Bucket overflow!             |
+// |------------------------------|
